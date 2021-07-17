@@ -1,6 +1,6 @@
 # Slider from 0 by React with Styled components
 
-This is a component created by Reacth with React Hooks: useRef, useEffect and useCallback.
+This is a component created by Reacth without libraries, just with React Hooks: useRef, useEffect and useCallback.
 Also is used CSS Styled Components.
 
 ## Available Scripts
