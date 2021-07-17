@@ -1,131 +1,117 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import img1 from './../img/1.png';
-import img2 from './../img/2.png';
-import img3 from './../img/3.png';
-import img4 from './../img/4.png';
-import img5 from './../img/5.png';
-import img6 from './../img/6.png';
-import img7 from './../img/7.png';
+import dataSlider from '../data/dataSlider2';
 
 
-const Slideshow = () => {
-    const slideshow = useRef(null);
-    const next = () => {
-        console.log(slideshow.current.children.length );
-        // Check if the Slider has elements
-        if(slideshow.current.children.length > 0) {
-            // Get first element of the Slideshow
-            const firstSlide = slideshow.current.children[0];
-            // Set transition of slideshow
-            slideshow.current.style.transition = `1000ms ease-out all`;
-            // Get width of the each slide
-            const sizeSlide = slideshow.current.children[0].offsetWidth;
-            // Move the slideshow
-            slideshow.current.style.transform = `translateX(-${sizeSlide}px)`;
+const Slideshow = ({
+    controls= true,
+    autoplay=false,
+    speed="700",
+    interval="5000",
+    textColor="#fff",
+    bgTextColor=""
+    // data=data
+}) => {
 
-            const finishedTransitions = () => {
-                // Restart the position of Slideshow
-                slideshow.current.style.transition = 'none';
-                slideshow.current.style.transform = `translateX(0)`;
-                // Get the first slide and send it to the end
-                slideshow.current.appendChild(firstSlide);
-                // Remove watch EvenetListener
-                slideshow.current.removeEventListener('transitionend', finishedTransitions);
-            }
-            // EventListener to watch when the transition was finished
-            slideshow.current.addEventListener('transitionend', finishedTransitions);
-        }
-    }
-    const before = () => {
-        if(slideshow.current.children.length > 0) {
-            // Get the last element of the Slider
-            const lastSlide = slideshow.current.lastChild;
-            // Move this element to the beginning
-            slideshow.current.insertBefore(lastSlide, slideshow.current.firstChild);
+// const slides = data;
+const slideshow = useRef(null);
+const intervalSlideshow = useRef(null);
 
-            slideshow.current.style.transition = 'none';
-            // Get width of the each slide
-            const sizeSlide = slideshow.current.children[0].offsetWidth;
-            // Move the slideshow
-            slideshow.current.style.transform = `translateX(-${sizeSlide}px)`;
-            setTimeout (()=> {
+const next = useCallback(() => {
+            // Check if the Slider has elements
+            if(slideshow.current.children.length > 0) {
+                // Get first element of the Slideshow
+                const firstSlide = slideshow.current.children[0];
                 // Set transition of slideshow
-                slideshow.current.style.transition = `1000ms ease-out all`;
-                slideshow.current.style.transform = `translateX(0)`;
-            }, 30)
-        }
+                slideshow.current.style.transition = `${speed}ms ease-out all`;
+                // Get width of the each slide
+                const sizeSlide = slideshow.current.children[0].offsetWidth;
+                // Move the slideshow
+                slideshow.current.style.transform = `translateX(-${sizeSlide}px)`;
+    
+                const finishedTransitions = () => {
+                    // Restart the position of Slideshow
+                    slideshow.current.style.transition = 'none';
+                    slideshow.current.style.transform = `translateX(0)`;
+                    // Get the first slide and send it to the end
+                    slideshow.current.appendChild(firstSlide);
+                    // Remove watch EvenetListener
+                    slideshow.current.removeEventListener('transitionend', finishedTransitions);
+                }
+                // EventListener to watch when the transition was finished
+                slideshow.current.addEventListener('transitionend', finishedTransitions);
+            }
+}, [speed]);
+
+const before = () => {
+    if(slideshow.current.children.length > 0) {
+        // Get the last element of the Slider
+        const lastSlide = slideshow.current.lastChild;
+        // Move this element to the beginning
+        slideshow.current.insertBefore(lastSlide, slideshow.current.firstChild);
+
+        slideshow.current.style.transition = 'none';
+        // Get width of the each slide
+        const sizeSlide = slideshow.current.children[0].offsetWidth;
+        // Move the slideshow
+        slideshow.current.style.transform = `translateX(-${sizeSlide}px)`;
+        setTimeout (()=> {
+            // Set transition of slideshow
+            slideshow.current.style.transition = `${speed}ms ease-out all`;
+            slideshow.current.style.transform = `translateX(0)`;
+        }, 30)
     }
-    return ( 
-        <MainContainer>
-            <ContainerSlideshow ref={slideshow}>
-                <Slide>
-                    <a href="#">
-                        <img src={img1} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img2} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img3} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img4} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img5} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img6} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img7} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-            </ContainerSlideshow>
-            <Controls>
-                <Arrows onClick={before}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
-                </Arrows>
-                <Arrows right onClick={next}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
-                </Arrows>
-            </Controls>
-        </MainContainer>
-    );
+}
+
+useEffect(()=>{
+    if(autoplay){
+        intervalSlideshow.current = setInterval(()=>{
+            next();
+        }, interval);
+
+        // Delete auto play slides when put mouse over
+        slideshow.current.addEventListener('mouseenter', ()=>{
+            clearInterval(intervalSlideshow.current);
+        });
+
+        // Active auto play when gout mouse outside of the slide
+        slideshow.current.addEventListener('mouseleave', ()=>{
+            intervalSlideshow.current = setInterval(()=>{
+                next();
+            }, interval);
+        });    
+    }
+}, [autoplay, interval, next]);
+
+return ( 
+    <MainContainer>
+        <ContainerSlideshow ref={slideshow}>
+            {
+                dataSlider.map((slides,i) => {
+                    const {imgSlide, textSlide, altSlide, linkSlide, bgColorSlide} = slides;
+                    return (
+                        <Slide>
+                            <a href={linkSlide}>
+                                <img src={imgSlide} alt={altSlide}/>                
+                            </a>
+                            <TextoSlide bgColor={bgColorSlide} textColor={ textColor}>
+                                {textSlide}
+                            </TextoSlide>
+                        </Slide>
+                    )
+                })
+            }
+        </ContainerSlideshow>
+        {controls && <Controls>
+            <Arrows onClick={before}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
+            </Arrows>
+            <Arrows right onClick={next}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
+            </Arrows>
+        </Controls>}
+    </MainContainer>
+);
 }
 
 

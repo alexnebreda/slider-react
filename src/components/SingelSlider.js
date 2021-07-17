@@ -1,19 +1,21 @@
 import React, {useRef, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import img1 from './../img/singelSlider/1.jpg';
-import img2 from './../img/singelSlider/2.jpg';
-import img3 from './../img/singelSlider/3.jpg';
-import img4 from './../img/singelSlider/4.jpg';
+import dataSlider from '../data/dataSlider';
+
 
 const Slideshow = ({
         controls= true,
         autoplay=false,
         speed="700",
-        interval="5000"
+        interval="5000",
+        textColor="#fff",
+        bgTextColor=""
+        // data=data
     }) => {
+
+    // const slides = data;
     const slideshow = useRef(null);
     const intervalSlideshow = useRef(null);
-
 
     const next = useCallback(() => {
                 // Check if the Slider has elements
@@ -61,7 +63,6 @@ const Slideshow = ({
         }
     }
 
-
     useEffect(()=>{
         if(autoplay){
             intervalSlideshow.current = setInterval(()=>{
@@ -82,41 +83,25 @@ const Slideshow = ({
         }
     }, [autoplay, interval, next]);
 
+    // console.log(slides);
     return ( 
         <MainContainer>
             <ContainerSlideshow ref={slideshow}>
-                <Slide>
-                    <a href="#">
-                        <img src={img1} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide bgColor="red" textColor="#fff">
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img2} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img3} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
-                <Slide>
-                    <a href="#">
-                        <img src={img4} alt="ASAS"/>                
-                    </a>
-                    <TextoSlide>
-                        10% Descuento
-                    </TextoSlide>
-                </Slide>
+                {
+                    dataSlider.map((slides,i) => {
+                        const {imgSlide, textSlide, altSlide, linkSlide} = slides;
+                        return (
+                            <Slide>
+                                <a href={linkSlide}>
+                                    <img src={imgSlide} alt={altSlide}/>                
+                                </a>
+                                <TextoSlide bgColor={bgTextColor} textColor={textColor}>
+                                    {textSlide}
+                                </TextoSlide>
+                            </Slide>
+                        )
+                    })
+                }
             </ContainerSlideshow>
             {controls && <Controls>
                 <Arrows onClick={before}>
