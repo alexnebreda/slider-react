@@ -6,7 +6,8 @@ Also is used CSS Styled Components.
 I implemented this carousel, on the B2B Home page of Mediamarkt Spain:
 https://specials.mediamarkt.es/empresas
 
-## Available Scripts
+## Available Scripts![pre-specials mediamarkt es_empresas (2)](https://user-images.githubusercontent.com/29735491/129193341-39808f7f-ec31-462d-b927-175f3e8fda77.png)
+
 
 In the project directory, you can run:
 
