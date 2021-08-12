@@ -3,6 +3,9 @@
 This is a component created by Reacth without libraries, just with React Hooks: useRef, useEffect and useCallback.
 Also is used CSS Styled Components.
 
+I implemented this carousel, on the B2B Home page of Mediamarkt Spain:
+https://specials.mediamarkt.es/empresas
+
 ## Available Scripts
 
 In the project directory, you can run:
